@@ -83,10 +83,15 @@ export const getCurrentUser = () => {
   return new Promise((resolve) => {
     setTimeout(() => {
       // Check localStorage or sessionStorage for authenticated user
-      const user = JSON.parse(localStorage.getItem('authenticatedUser'));
-      if (user) {
-        resolve({ success: true, user });
-      } else {
+      try {
+        const user = JSON.parse(localStorage.getItem('authenticatedUser'));
+        if (user) {
+          resolve({ success: true, user });
+        } else {
+          resolve({ success: false });
+        }
+      }
+      catch (error) {
         resolve({ success: false });
       }
     }, 500); // Simulated network delay
