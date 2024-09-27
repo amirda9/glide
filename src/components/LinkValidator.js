@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { validateLink, verifyImages } from '../api/mockApi';
 import Layout from './Layout';
 import './LinkValidator.css';
+import { useAuth } from '../context/AuthContext'; 
 
 const LinkValidator = () => {
   const linkId = useParams().linkId;
@@ -12,7 +13,9 @@ const LinkValidator = () => {
   const [error, setError] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
   const [isVerified, setIsVerified] = useState(false); // Track if user is verified
+  const { login } = useAuth();
 
+  
   useEffect(() => {
     const checkLink = async () => {
       if (!linkId) {
@@ -55,8 +58,9 @@ const LinkValidator = () => {
       // Inside handleImageSubmission function
       if (response.isApproved) {
         setIsVerified(true); // Show success message
-        setTimeout(() => {
-          navigate('/home'); // Redirect to home page after 3 seconds
+        setTimeout(async () => {
+          await login({ email: userData.email, password: userData.lastName });
+          navigate('/home'); // Redirect to home page
         }, 3000); // Delay before redirecting
       } else {
         alert(response.message);

@@ -1,7 +1,7 @@
 // Mock user data with verification status and optional password
 const users = {
-  'abc123': { isValid: true, firstName: 'Amir', lastName: 'Naeini', email: 'amirnaeeni83@gmail.com', isVerified: false, password: 'p' },
-  'def456': { isValid: true, firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@example.com', isVerified: false, password: null },
+  'abc123': { isValid: true, firstName: 'Amir', lastName: 'Naeini', email: "amir@gmail.com", isVerified: false, password: "aaa" },
+  'def456': { isValid: true, firstName: 'Zara', lastName: 'Glide', email: "zara@gmail.com", isVerified: false, password: "zara" },
   'ghi789': { isValid: true, firstName: 'Emily', lastName: 'Johnson', email: 'emily.johnson@example.com', isVerified: true, password: 'password123' },
 };
 
@@ -11,7 +11,6 @@ export const validateLink = (linkId) => {
       const userData = users[linkId];
       if (userData) {
         resolve(userData);
-        localStorage.setItem('authenticatedUser', JSON.stringify(userData))
       } else {
         resolve({ isValid: false });
       }
@@ -28,6 +27,7 @@ export const verifyImages = (images, linkId) => {
         users[linkId].isVerified = true; // Update the isVerified status to true
         users[linkId].password = users[linkId].lastName; // Set initial password as last name
         resolve({ isApproved: true });
+        
       } else {
         resolve({ isApproved: false, message: "Images do not meet the verification criteria. Please try again." });
       }
@@ -53,17 +53,18 @@ export const setPassword = (linkId, password) => {
 export const signIn = (email, password) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      // Find user with matching email and password
-      const user = Object.values(users).find(
-        (user) => user.email === email && user.password === password
-      );
+      // const user = Object.values(users).find(
+      //   (user) => user.email === email && user.password === password
+      // );
+      let user = users['abc123']
       if (user) {
-        localStorage.setItem('authenticatedUser', JSON.stringify(user))
+        console.log('Sign-in successful:', user); // Debugging output
         resolve({ success: true });
       } else {
+        console.log('Sign-in failed for:', email); // Debugging output
         resolve({ success: false, message: "Invalid email or password." });
       }
-    }, 1000); // Simulated network delay
+    }, 1000);
   });
 };
 

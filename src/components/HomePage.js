@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Layout from './Layout'; // Reusing the Layout component for consistent UI
 import QRCodeModal from './QRCodeModal'; // Import the renamed QRCodeModal
 import { QRCodeCanvas } from 'qrcode.react'; // Updated import for Canvas QR code
 import './HomePage.css'; // Add specific styling for the HomePage
+import { useAuth } from '../context/AuthContext'; // Import the authentication context
 
 const HomePage = () => {
   const [showModal, setShowModal] = useState(false); // State to manage modal visibility
+  const { logout } = useAuth(); // Get the logout method from auth context
+  const navigate = useNavigate();
 
   const handleShowQRCode = () => {
     setShowModal(true);
@@ -13,6 +17,11 @@ const HomePage = () => {
 
   const handleCloseModal = () => {
     setShowModal(false);
+  };
+
+  const handleLogout = async () => {
+    await logout(); // Call the logout method to clear the authentication state
+    navigate('/sign-in'); // Redirect to sign-in page after logout
   };
 
   return (
@@ -33,6 +42,11 @@ const HomePage = () => {
           <QRCodeCanvas value="https://your-verified-link.com" size={250} />
           <p>Scan this QR code to verify your identity.</p>
         </QRCodeModal>
+
+        {/* Add the Logout button */}
+        <button className="logout-button" onClick={handleLogout}>
+          Log Out
+        </button>
       </div>
     </Layout>
   );

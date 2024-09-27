@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
 
   // Method to log in the user
   const login = async ({ email, password }) => {
+
     try {
       const response = await signIn({ email, password });
       if (response.success) {
