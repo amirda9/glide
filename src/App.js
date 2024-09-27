@@ -1,27 +1,36 @@
-// src/App.js
+// App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LinkValidator from './components/LinkValidator';
 import WelcomePage from './components/WelcomePage';
+import HomePage from './components/HomePage';
+import SignInPage from './components/SignInPage';
+import ProtectedRoute from './components/ProtectedRoute';
+import { AuthProvider } from './context/AuthContext';
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        {/* Default route for the link validator */}
-        <Route path="/" element={<LinkValidator />} />
-        
-        {/* Dynamic linkId route */}
-        <Route path="/:linkId" element={<LinkValidator />} />
+    <AuthProvider>
+      <Router>
+        <Routes>
+          {/* Home page route */}
+          <Route path="/" element={<ProtectedRoute element={<HomePage />} />} />
 
-        {/* Welcome page route */}
-        <Route path="/welcome" element={<WelcomePage />} />
+          {/* Link validator with dynamic linkId parameter */}
+          <Route path="/validate-link/:linkId" element={<LinkValidator />} />
 
-        {/* Catch-all route for any other paths to direct to link validator */}
-        <Route path="*" element={<LinkValidator />} />
-      </Routes>
-    </Router>
+          {/* Welcome page route */}
+          <Route path="/welcome" element={<ProtectedRoute element={<WelcomePage />} />} />
+
+          {/* Sign-in page route */}
+          <Route path="/sign-in" element={<SignInPage />} />
+
+          {/* Catch-all route for any other paths */}
+          <Route path="*" element={<ProtectedRoute element={<HomePage />} />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
-}
+};
 
 export default App;

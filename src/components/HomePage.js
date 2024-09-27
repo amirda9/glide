@@ -1,0 +1,41 @@
+import React, { useState } from 'react';
+import Layout from './Layout'; // Reusing the Layout component for consistent UI
+import QRCodeModal from './QRCodeModal'; // Import the renamed QRCodeModal
+import { QRCodeCanvas } from 'qrcode.react'; // Updated import for Canvas QR code
+import './HomePage.css'; // Add specific styling for the HomePage
+
+const HomePage = () => {
+  const [showModal, setShowModal] = useState(false); // State to manage modal visibility
+
+  const handleShowQRCode = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  return (
+    <Layout>
+      <div className="home-container">
+        <h1>Welcome to Your Home Page!</h1>
+        <p>Congratulations! You are successfully verified and logged in.</p>
+        <p>Here, you can access your account details, view your QR code, and explore other features.</p>
+        <div className="actions">
+          <button className="action-button" onClick={handleShowQRCode}>
+            View QR Code
+          </button>
+          <button className="action-button">Account Settings</button>
+        </div>
+
+        {/* Use QRCodeModal */}
+        <QRCodeModal show={showModal} onClose={handleCloseModal}>
+          <QRCodeCanvas value="https://your-verified-link.com" size={250} />
+          <p>Scan this QR code to verify your identity.</p>
+        </QRCodeModal>
+      </div>
+    </Layout>
+  );
+};
+
+export default HomePage;

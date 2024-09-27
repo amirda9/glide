@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { validateLink } from '../api/mockApi';
-import Layout from './Layout'; // Import the Layout component
-import './LinkValidator.css'; // Import specific styles if needed
+import { validateLink, verifyImages } from '../api/mockApi';
+import Layout from './Layout';
+import './LinkValidator.css';
 
 const LinkValidator = () => {
-  const { linkId } = useParams();
+  const linkId = useParams().linkId;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
-  const [error, setError] = useState(false); // New state variable to track invalid link
-  const [emailVerified, setEmailVerified] = useState(false); // State to track email verification
+  const [error, setError] = useState(false);
+  const [emailVerified, setEmailVerified] = useState(false);
+  const [isVerified, setIsVerified] = useState(false); // Track if user is verified
 
   useEffect(() => {
     const checkLink = async () => {
@@ -25,7 +26,7 @@ const LinkValidator = () => {
         if (response.isValid) {
           setUserData(response);
         } else {
-          setError(true); // Set error state if the link is invalid
+          setError(true);
         }
       } catch (error) {
         console.error('Error validating link:', error);
@@ -38,7 +39,6 @@ const LinkValidator = () => {
     checkLink();
   }, [linkId]);
 
-  // Handle email verification
   const handleEmailVerification = (enteredEmail) => {
     if (enteredEmail === userData.email) {
       setEmailVerified(true);
@@ -47,14 +47,30 @@ const LinkValidator = () => {
     }
   };
 
-  // Handle form submission for verification
-  const handleVerificationComplete = () => {
-    alert("Verification completed successfully!");
-    navigate('/welcome'); // Redirect to the welcome page
+  // Handle image submission and verification
+  const handleImageSubmission = async (images) => {
+    setLoading(true);
+    try {
+      const response = await verifyImages(images, linkId);
+      // Inside handleImageSubmission function
+      if (response.isApproved) {
+        setIsVerified(true); // Show success message
+        setTimeout(() => {
+          navigate('/home'); // Redirect to home page after 3 seconds
+        }, 3000); // Delay before redirecting
+      } else {
+        alert(response.message);
+      }
+    } catch (error) {
+      console.error('Error verifying images:', error);
+      alert('Something went wrong. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Loading indicator
+    return <div>Loading...</div>;
   }
 
   if (error) {
@@ -71,14 +87,22 @@ const LinkValidator = () => {
 
   return (
     <Layout>
-      {!emailVerified ? (
+      {isVerified ? (
+        <div className="success-message">
+          <div className="checkmark">
+            ✔️
+          </div>
+          <h1>Verification Successful!</h1>
+          <p>Redirecting you to the home page...</p>
+        </div>
+      ) : !emailVerified ? (
         <>
-          <h1>Hello, {userData.firstName}</h1>
+          <h1>Hello, {userData.firstName} {userData.lastName}!</h1>
           <p>Please verify your email address to proceed.</p>
           <EmailVerificationForm onVerify={handleEmailVerification} />
         </>
       ) : (
-        <ImageUploadForm onComplete={handleVerificationComplete} />
+        <ImageUploadForm onSubmitImages={handleImageSubmission} />
       )}
     </Layout>
   );
@@ -90,29 +114,29 @@ const EmailVerificationForm = ({ onVerify }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onVerify(email); // Pass the entered email to parent for verification
+    onVerify(email);
   };
 
   return (
     <form className="verification-form" onSubmit={handleSubmit}>
-    <div className="input-group">
-      <input
-        type="email"
-        name="email"
-        placeholder="Enter your email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-        className="input-field"
-      />
-    </div>
-    <button type="submit" className="submit-button">Verify Email</button>
-  </form>
+      <div>
+        <input
+          type="email"
+          name="email"
+          placeholder="Enter your email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          className="input-field"
+        />
+      </div>
+      <button type="submit" className="submit-button">Verify Email</button>
+    </form>
   );
 };
 
 // Form for uploading two images
-const ImageUploadForm = ({ onComplete }) => {
+const ImageUploadForm = ({ onSubmitImages }) => {
   const [images, setImages] = useState({
     image1: null,
     image2: null,
@@ -134,7 +158,7 @@ const ImageUploadForm = ({ onComplete }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (images.image1 && images.image2) {
-      onComplete(); // Call the parent function to complete verification
+      onSubmitImages(images); // Call the parent function to submit images for verification
     } else {
       alert('Please upload both images.');
     }
@@ -162,7 +186,7 @@ const ImageUploadForm = ({ onComplete }) => {
         />
         {previews.preview2 && <img src={previews.preview2} alt="Preview 2" className="preview-img" />}
       </div>
-      <button type="submit">Submit Images</button>
+      <button type="submit" className="submit-button">Submit Images</button>
     </form>
   );
 };

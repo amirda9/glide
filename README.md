@@ -9,10 +9,6 @@ A React-based application that allows users to verify themselves through a uniqu
 - **Image Upload**: After email verification, users are prompted to upload two images for further verification.
 - **Responsive UI**: The app is designed to be mobile-friendly with modern UI components.
 
-## Project Structure
-
-/src ├── /api │ └── mockApi.js # Mock API to simulate link and user data validation ├── /assets │ └── logo.png # Logo used in the app ├── /components │ ├── EmailVerificationForm.js # Component for email verification │ ├── LinkValidator.js # Main component for link validation and verification process │ ├── WelcomePage.js # Component for the welcome page and image upload │ ├── Layout.js # Shared layout component with logo and container │ ├── LinkValidator.css # CSS specific to LinkValidator component │ ├── WelcomePage.css # CSS specific to WelcomePage component │ └── Layout.css # CSS for the shared layout ├── /styles │ └── global.css # Global CSS styles ├── App.js # Main app component with routing └── index.js # Entry point of the application 
-
 
 
 ## Installation and Setup

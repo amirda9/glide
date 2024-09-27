@@ -1,4 +1,3 @@
-// src/components/Layout.js
 import React from 'react';
 import './Layout.css'; // Import the common layout styles
 import logo from '../assets/logo.png'; // Import the logo image

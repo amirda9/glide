@@ -1,0 +1,80 @@
+/* Modal overlay background */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7); /* Darker translucent background */
+    display: flex;
+    align-items: flex-end; /* Align at the bottom for swipe up */
+    justify-content: center;
+    z-index: 1000; /* Ensures the modal is on top */
+  }
+  
+  /* Modal content box */
+  .modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    background: #ffffff; /* White background */
+    padding: 20px;
+    border-radius: 20px 20px 0 0; /* Rounded corners at the top */
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2); /* Stronger shadow for the modal */
+    transition: transform 0.3s ease-in-out; /* Smooth slide-up transition */
+    transform: translateY(0); /* Default state */
+  }
+  
+  /* Swipe up state */
+  .modal-content.swipe-up {
+    transform: translateY(-50%); /* Slide up by 50% of the modal height */
+  }
+  
+  /* Modal header styling */
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+  
+  /* Swipe indicator */
+  .swipe-indicator {
+    width: 60px; /* Increase the width for larger icon */
+    height: 60px; /* Increase the height for larger icon */
+    background-color: #f0f0f0; /* Light background for the indicator */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: transform 0.3s ease-in-out; /* Smooth transition for the indicator */
+    font-size: 28px; /* Increase font size for larger arrow */
+  }
+  
+  /* Swipe indicator on hover */
+  .swipe-indicator:hover {
+    transform: scale(1.1); /* Slightly enlarge on hover */
+  }
+  
+  /* Close button styling */
+  .modal-close-button {
+    background: transparent;
+    border: none;
+    font-size: 32px; /* Increase font size for larger close icon */
+    cursor: pointer;
+    color: #888; /* Grey color */
+  }
+  
+  /* Close button on hover */
+  .modal-close-button:hover {
+    color: #333; /* Darker on hover */
+  }
+  
+  /* Modal body styling */
+  .modal-body {
+    padding: 10px;
+  }
+  

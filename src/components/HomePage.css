@@ -1,0 +1,24 @@
+/* Main container styling for the home page */
+.home-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  /* Styling for the action buttons */
+  .action-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 5px; /* Space between buttons */
+  }
+  
+  /* Hover effect for action buttons */
+  .action-button:hover {
+    background-color: #0056b3;
+  }
+  
