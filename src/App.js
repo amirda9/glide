@@ -2,7 +2,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LinkValidator from './components/LinkValidator';
-import WelcomePage from './components/WelcomePage';
 import HomePage from './components/HomePage';
 import SignInPage from './components/SignInPage';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -18,10 +17,6 @@ const App = () => {
 
           {/* Link validator with dynamic linkId parameter */}
           <Route path="/validate-link/:linkId" element={<LinkValidator />} />
-
-          {/* Welcome page route */}
-          <Route path="/welcome" element={<ProtectedRoute element={<WelcomePage />} />} />
-
           {/* Sign-in page route */}
           <Route path="/sign-in" element={<SignInPage />} />
 
