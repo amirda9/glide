@@ -1,0 +1,39 @@
+/* Wrapper for the layout to center content */
+.layout-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px; /* Space at the top for the logo */
+  }
+  
+  /* Logo styling */
+  .logo {
+    width: 120px; /* Set appropriate width */
+    height: auto;
+    margin-bottom: 20px; /* Space between the logo and the container */
+  }
+  
+  /* Main container styles */
+  .container {
+    max-width: 600px;
+    margin: 0 20px;
+    padding: 30px 20px; /* Add padding to the container */
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    text-align: center;
+    position: relative;
+  }
+  
+  /* Responsive styling */
+  @media (max-width: 600px) {
+    .container {
+      margin: 10px;
+      padding: 20px;
+    }
+  
+    .logo {
+      width: 100px; /* Smaller logo size on mobile */
+    }
+  }
+  
