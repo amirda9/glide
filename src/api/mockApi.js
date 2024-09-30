@@ -1,6 +1,6 @@
 // Mock user data with verification status and optional password
 const users = {
-  'abc123': { isValid: true, firstName: 'Amir', lastName: 'Naeini', email: "amir@gmail.com", isVerified: false, password: "aaa" },
+'abc123': { isValid: true, firstName: 'Amir', lastName: 'Naeini', email: "amir@gmail.com", isVerified: false, password: "aaa" },
   'def456': { isValid: true, firstName: 'Zara', lastName: 'Glide', email: "zara@gmail.com", isVerified: false, password: "zara" },
   'ghi789': { isValid: true, firstName: 'Emily', lastName: 'Johnson', email: 'emily.johnson@example.com', isVerified: true, password: 'password123' },
 };
@@ -49,7 +49,6 @@ export const setPassword = (linkId, password) => {
   });
 };
 
-// Sign in with email and password
 export const signIn = (email, password) => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -59,7 +58,7 @@ export const signIn = (email, password) => {
       let user = users['abc123']
       if (user) {
         console.log('Sign-in successful:', user); // Debugging output
-        resolve({ success: true });
+        resolve({ success: true, user });
       } else {
         console.log('Sign-in failed for:', email); // Debugging output
         resolve({ success: false, message: "Invalid email or password." });

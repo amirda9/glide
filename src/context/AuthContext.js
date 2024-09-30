@@ -26,6 +26,7 @@ export const AuthProvider = ({ children }) => {
 
     try {
       const response = await signIn({ email, password });
+      console.log(response); // Debugging output
       if (response.success) {
         setIsAuthenticated(true);
         setUser(response.user);
